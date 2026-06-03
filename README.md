@@ -33,10 +33,29 @@ curl -fsSL https://pixi.sh/install.sh | bash
 
 ## ⚡ Quick Start (For End Users)
 
-You can instantly configure a new project environment with GDAL, Rasterio, and MrSID support using just a few commands:
+You can instantly configure a new project environment with GDAL, Rasterio, and MrSID support using just a few commands. This builder supports both `pixi` and `conda`.
+
+### 🟢 Using Pixi
 
 > [!IMPORTANT]
-> **Strict Architecture Requirement**: You **MUST** initialize your project using `osx-64` or `linux-64` platforms. The proprietary MrSID SDK does **not** have an ARM version. If you omit these flags (especially on Apple Silicon / M-Series Macs), the plugin compilation will fail!
+> **Strict Architecture Requirement**: You **MUST** initialize your project using `osx-64` or `linux-64` platforms. The proprietary MrSID SDK does **not** have an ARM version. 
+> 
+> If you omit these flags (especially on Apple Silicon / M-Series Macs), `pixi` will default to `osx-arm64` and the plugin compilation will fail with the following explicit error:
+> ```
+> ========================================================
+>  [ERROR] Apple Silicon (arm64) native environment detected!
+> ========================================================
+> Extensis MrSID SDK does not provide a native ARM version.
+> To use this plugin, your Pixi environment must be configured
+> to run under Rosetta 2 (x86_64).
+> 
+> How to fix this:
+>   1. Delete your current environment:  rm -rf .pixi
+>   2. Open pixi.toml and change platforms to:
+>      platforms = ["osx-64", "linux-64"]
+>   3. Run again: pixi run build-mrsid
+> ========================================================
+> ```
 
 ```bash
 # 1. Initialize a new Pixi project (force x86_64 architecture)
@@ -53,13 +72,32 @@ pixi add gdal-mrsid-builder
 pixi run build-mrsid
 ```
 
+### 🔵 Using Conda / Mamba
+
+For Conda or Mamba environments, you must similarly ensure the environment is created for the `osx-64` or `linux-64` architecture.
+
+```bash
+# 1. Create and activate a new Conda environment
+# Note: On Apple Silicon Macs, you MUST prepend CONDA_SUBDIR=osx-64
+CONDA_SUBDIR=osx-64 conda create -n gdal_mrsid_env python=3.10
+conda activate gdal_mrsid_env
+
+# 2. Install the builder package
+conda install -c https://prefix.dev/remote-sensing -c conda-forge gdal-mrsid-builder
+
+# 3. Run the standalone build command
+build-mrsid
+```
+
+### ✅ Verifying Installation
+
 That's it! The plugin is now built and injected into your local environment. You can immediately start reading `.sid` files:
 
 ```bash
-# Verify GDAL support
+# Verify GDAL support (For Conda, omit 'pixi run')
 pixi run gdalinfo --formats | grep -i mrsid
 
-# Read NAIP data with Rasterio
+# Read NAIP data with Rasterio (For Conda, omit 'pixi run')
 pixi run python -c "import rasterio; ds = rasterio.open('naip_image.sid'); print(ds.profile)"
 ```
 
