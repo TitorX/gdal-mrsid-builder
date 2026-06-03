@@ -1,0 +1,46 @@
+[workspace]
+channels = ["conda-forge"]
+platforms = ["osx-64", "linux-64"]
+preview = ["pixi-build"]
+
+[package]
+name = "gdal-mrsid-builder"
+version = "1.0.0"
+
+[package.build]
+backend = { name = "pixi-build-python", version = "*" }
+
+# Runtime dependencies: pulled in when a user does `pixi add gdal-mrsid-builder`
+[package.run-dependencies]
+python = ">=3.10"
+gdal = "*"
+geotiff = "*"
+rasterio = "*"
+cmake = "*"
+make = "*"
+c-compiler = "*"
+cxx-compiler = "*"
+pkg-config = "*"
+curl = "*"
+
+# Host dependencies for building this Python package
+[package.host-dependencies]
+hatchling = "*"
+
+# Dev-time dependencies (for local development and testing in this workspace)
+[dependencies]
+python = ">=3.10"
+gdal = "*"
+geotiff = "*"
+rasterio = "*"
+cmake = "*"
+make = "*"
+c-compiler = "*"
+cxx-compiler = "*"
+pkg-config = "*"
+curl = "*"
+git = "*"
+
+[tasks]
+build-mrsid = "python -m mrsid_builder.cli"
+test-gdal = { cmd = "gdalinfo --formats | grep -i mrsid", depends-on = ["build-mrsid"] }
