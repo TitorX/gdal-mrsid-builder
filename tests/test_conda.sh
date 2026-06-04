@@ -17,7 +17,7 @@ fi
 
 echo "[1/4] Creating conda environment for platform: $SUBDIR"
 export CONDA_SUBDIR="$SUBDIR"
-conda create -n "$ENV_NAME" python=3.10 gdal-mrsid-builder -c "file://$LOCAL_CHANNEL_PATH" -c conda-forge -y
+conda create -n "$ENV_NAME" "python>=3.10" gdal-mrsid-builder -c "file://$LOCAL_CHANNEL_PATH" -c conda-forge -y
 
 echo "[2/4] Activating environment"
 # To activate conda in bash script reliably

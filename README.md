@@ -129,8 +129,31 @@ pixi run build-mrsid
 # Force a clean rebuild (if you modify the bash script)
 pixi run build-mrsid --clean
 
-# Run tests to verify the plugin loads correctly
+# Run simple validation tests to verify the plugin loads correctly
 pixi run test-gdal
+```
+
+### 🧪 Running End-to-End Tests
+
+We provide automated test scripts that simulate the entire build and installation flow exactly as an end user would experience it. The tests will compile a local `.conda` package, spin up a local Conda channel, and then test the installation in isolated Pixi and Conda environments.
+
+**Option 1: Run all tests sequentially (Recommended)**
+This will automatically build the local channel and run both Pixi and Conda tests:
+```bash
+./tests/run_all_tests.sh
+```
+
+**Option 2: Run tests individually**
+If you only want to test a specific environment, you can run the sub-scripts manually:
+```bash
+# First, you must build the local mock channel
+./tests/build_local_channel.sh
+
+# Run the Pixi installation test
+./tests/test_pixi.sh
+
+# Run the Conda installation test
+./tests/test_conda.sh
 ```
 
 ## ⚖️ License
