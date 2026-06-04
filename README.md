@@ -1,5 +1,7 @@
 # GDAL MrSID Plugin Builder 🚀
 
+[![CI & Publish](https://github.com/TitorX/gdal-mrsid-builder/actions/workflows/release-workflow.yml/badge.svg)](https://github.com/TitorX/gdal-mrsid-builder/actions/workflows/release-workflow.yml)
+
 A lightning-fast, automated builder for adding MrSID (`.sid`) support to GDAL and Rasterio using [Pixi](https://pixi.sh/).
 
 ## 📖 Background
@@ -20,22 +22,16 @@ Using Pixi, this tool acts as an automated compiler. It dynamically downloads th
 
 ---
 
-## 📦 What is Pixi?
+### 🟢 Using Pixi (Recommended)
 
-[Pixi](https://pixi.sh/) is a blazing-fast, modern package manager built on top of the conda ecosystem. Think of it as a much faster alternative to `conda` or `mamba`, combined with project management features similar to `npm` or `cargo`. It manages both Python packages and system-level C/C++ dependencies seamlessly in project-isolated environments.
+[Pixi](https://pixi.sh/) is a blazing-fast, modern package manager built on top of the conda ecosystem.
 
-**Install Pixi in one line (Mac/Linux):**
+**1. Install Pixi (Mac/Linux)**
 ```bash
 curl -fsSL https://pixi.sh/install.sh | bash
 ```
 
----
-
-## ⚡ Quick Start (For End Users)
-
-You can instantly configure a new project environment with GDAL, Rasterio, and MrSID support using just a few commands. This builder supports both `pixi` and `conda`.
-
-### 🟢 Using Pixi
+**2. Initialize and Install**
 
 > [!IMPORTANT]
 > **Strict Architecture Requirement**: You **MUST** initialize your project using `osx-64` or `linux-64` platforms. The proprietary MrSID SDK does **not** have an ARM version. 
@@ -58,28 +54,30 @@ You can instantly configure a new project environment with GDAL, Rasterio, and M
 > ```
 
 ```bash
-# 1. Initialize a new Pixi project (force x86_64 architecture)
+# Initialize a new Pixi project (force x86_64 architecture)
 pixi init --platform osx-64 --platform linux-64
 
-# 2. Add the custom channel where this builder is published
+# Add the custom channel where this builder is published
 # NOTE: Use the direct API channel URL, do NOT include "/channels/" from the web UI URL!
 pixi project channel add https://prefix.dev/remote-sensing
 
-# 3. Add the builder (this automatically installs GDAL, Rasterio, and all build tools)
+# Add the builder (this automatically installs GDAL, Rasterio, and all build tools)
 pixi add gdal-mrsid-builder
 
-# 4. Run the automated build script to inject the MrSID plugin
+# Run the automated build script to inject the MrSID plugin
 pixi run build-mrsid
 ```
 
 ### 🔵 Using Conda / Mamba
+
+[Conda](https://docs.conda.io/) is a widely used package manager for data science. If you don't have it installed, we recommend downloading [Miniconda](https://docs.conda.io/en/latest/miniconda.html).
 
 For Conda or Mamba environments, you must similarly ensure the environment is created for the `osx-64` or `linux-64` architecture.
 
 ```bash
 # 1. Create and activate a new Conda environment
 # Note: On Apple Silicon Macs, you MUST prepend CONDA_SUBDIR=osx-64
-CONDA_SUBDIR=osx-64 conda create -n gdal_mrsid_env python=3.10
+CONDA_SUBDIR=osx-64 conda create -n gdal_mrsid_env "python>=3.10"
 conda activate gdal_mrsid_env
 
 # 2. Install the builder package
