@@ -1,6 +1,6 @@
 [project]
 name = "gdal-mrsid-builder"
-version = "1.0.3"
+version = "1.0.4"
 description = "Auto-downloads and compiles MrSID plugin for GDAL"
 requires-python = ">=3.10"
 

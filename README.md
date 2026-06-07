@@ -61,7 +61,16 @@ curl -fsSL https://pixi.sh/install.sh | bash
 > ```
 
 ```bash
-# Initialize a new Pixi project (force x86_64 architecture)
+# Initialize a new Pixi project based on your target platform
+# (Note: Windows and ARM Linux are NOT supported)
+
+# ➡️ For x86 Linux only:
+pixi init
+
+# ➡️ For macOS only (Intel or Apple Silicon):
+pixi init --platform osx-64
+
+# ➡️ For Cross-Platform (both Linux and macOS):
 pixi init --platform osx-64 --platform linux-64
 
 # Add the custom channel where this builder is published
@@ -83,8 +92,12 @@ For Conda or Mamba environments, you must similarly ensure the environment is cr
 
 ```bash
 # 1. Create and activate a new Conda environment
-# Note: On Apple Silicon Macs, you MUST prepend CONDA_SUBDIR=osx-64
+# ➡️ For Linux or macOS Intel:
+conda create -n gdal_mrsid_env "python>=3.10"
+
+# ➡️ For macOS Apple Silicon ONLY (forces x86 architecture):
 CONDA_SUBDIR=osx-64 conda create -n gdal_mrsid_env "python>=3.10"
+
 conda activate gdal_mrsid_env
 
 # 2. Install the builder package
