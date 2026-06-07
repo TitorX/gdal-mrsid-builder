@@ -20,6 +20,13 @@ Using Pixi, this tool acts as an automated compiler. It dynamically downloads th
 - **macOS (Intel / x86_64)**
 - **macOS (Apple Silicon / ARM64)**: *Supported via Rosetta 2.* Because Extensis currently does not provide a native ARM SDK for MrSID, this tool will automatically force your GDAL build environment to use the x86_64 architecture on Apple Silicon Macs, running seamlessly through Rosetta 2 translation.
 
+> [!WARNING]
+> **Compatibility with AI/DL Libraries on macOS**
+> 
+> Running a full x86_64 Python environment via Rosetta 2 means that *all* packages in that environment will be the x86 versions. Many modern Python libraries (such as **PyTorch**) are dropping support for macOS x86. Even if you can install an x86 version of PyTorch, you will **not** have access to Apple Silicon hardware acceleration (Metal Performance Shaders / MPS).
+> 
+> While reading/writing `.sid` files works perfectly under Rosetta 2, if your project heavily relies on AI/DL processing using Apple Silicon hardware acceleration, you may experience compatibility issues or sub-optimal performance. Consider separating your MrSID ingestion pipeline from your ML pipeline if performance is critical.
+
 ---
 
 ### 🟢 Using Pixi (Recommended)

@@ -5,7 +5,7 @@ preview = ["pixi-build"]
 
 [package]
 name = "gdal-mrsid-builder"
-version = "1.0.2"
+version = "1.0.3"
 
 [package.build]
 backend = { name = "pixi-build-python", version = "*" }
